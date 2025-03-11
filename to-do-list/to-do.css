@@ -1,0 +1,38 @@
+.delete-class {
+    background-color: red;
+    color: aliceblue;
+    font-weight: bold;
+    border: none;
+    width: 80px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+.add-class {
+    background-color: green;
+    color: aliceblue;
+    font-weight: bold;
+    border: none;
+    width: 80px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.todo-grid , .todo-input-grid{
+    display: grid;
+    grid-template-columns: 200px 150px 100px;
+    column-gap: 10px;
+    row-gap: 10px;
+
+}
+.todo-input-grid {
+    margin-bottom: 10px;
+}
