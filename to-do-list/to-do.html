@@ -8,43 +8,14 @@
 <body>
     <p>To do list</p>
     <input class="todo-class" type="text" placeholder="todo name">
+    <input class="date-class" type="date">
     <button onclick="addTodo()">Add</button>
 
     <div>
         <p id="todo"></p>
     </div>
 
-    <script>
-
-        const todoList = [];
-
-        function renderTodoList() {
-            let todoListHTML = '';
-            for (let i = 0; i < todoList.length; i++) {
-               const todo = todoList[i];
-               const html = 
-               `<p> 
-                ${todo} 
-                <button 
-                    onclick = deleteTodo(${i})
-                    ">delete 
-                </button> 
-                </p>`;
-               todoListHTML += html;
-            }
-            document.getElementById('todo').innerHTML = todoListHTML;
-        }
-      
-        function addTodo() {
-            const x = document.querySelector('.todo-class').value;
-            todoList.push(x);    
-            renderTodoList();   
-        }
-        
-        function deleteTodo(index) {
-            todoList.splice(index,1);
-            renderTodoList();
-        }
+    <script src="to-do.js">
         
     </script>
 </body>
