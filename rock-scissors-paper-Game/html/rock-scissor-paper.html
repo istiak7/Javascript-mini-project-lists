@@ -1,57 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rock-scissors-paper</title>
-    <link rel="stylesheet" href="../css/rock-scissor-paper.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>rock-scissors-paper</title>
+   <link rel="stylesheet" href="../css/rock-scissor-paper.css">
 </head>
+
 <body>
-    <p class="game-title">Rock Scissor Paper</p>
-   <button 
-        onclick="
-           computerGuess('Rock');
-           totalScore();
-        "
-        class="move-button"
-        >
-        <img src="../images/rock.png" class="move-icon">
-        </button>
+   <p class="game-title">Rock Scissor Paper</p>
+   
+   <button class="move-button js-rock-button">
+      <img src="../images/rock.png" class="move-icon">
+   </button>
 
-        <button 
-        onclick="
-           computerGuess('Scissor');
-           totalScore();
-        "
-        class="move-button"
-        ><img src="../images/scissor.png" class="move-icon"></button>
+   <button class="move-button js-scissor-button">
+      <img src="../images/scissor.png" class="move-icon">
 
-        <button 
-        onclick="
-           computerGuess('Paper');
-           totalScore();
-        "
-        class="move-button"
-        ><img src="../images/paper.png" class="move-icon"></button>
+   </button>
 
-       
-        <p class="verdict"></p>
-        <p class="explain-verdict"></p>
-        <p class="total-score"></p>
+   <button class="move-button js-paper-button">
+      <img src="../images/paper.png" class="move-icon">
+   </button>
 
-        <button 
-        onclick="
-        localStorage.removeItem('score');
 
-           resetFunction();
-           totalScore();
-        ">Reset Score</button>
+   <p class="verdict"></p>
+   <p class="explain-verdict"></p>
+   <p class="total-score"></p>
 
-<script 
+   <button class="js-reset-button">
+      Reset Score
+   </button>
 
-    src="../scripts/rock-scissor-paper.js">
+   <script src="../scripts/rock-scissor-paper.js">
 
-</script>
+   </script>
 
 </body>
+
 </html>
