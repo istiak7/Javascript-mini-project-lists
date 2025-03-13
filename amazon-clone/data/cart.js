@@ -1,50 +1,49 @@
-export let cart = [{
-    productId : "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    qauntity : 2
-},
-{
-    productId : "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    qauntity : 1
-}];
+export let cart = JSON.parse(localStorage.getItem('cart'));
 
-export function addToCart(productId, productPrice) {  
+function saveToStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 
-    let matchingItem;
-    cart.forEach((cartItem) => {
-      if (cartItem.productId === productId) {
-        matchingItem = cartItem;
-      }
-    });
-  
-    if (matchingItem) {
-      matchingItem.qauntity += 1;
-      matchingItem.productPrice = Number(matchingItem.productPrice) + Number(productPrice);
+export function addToCart(productId, productPrice) {
+
+  let matchingItem;
+  cart.forEach((cartItem) => {
+    if (cartItem.productId === productId) {
+      matchingItem = cartItem;
     }
-    else {
-      cart.push({
-        productId: productId,
-        productPrice: productPrice,
-        qauntity: 1
-      })
-    }
+  });
+
+  if (matchingItem) {
+    matchingItem.qauntity += 1;
+    matchingItem.productPrice = Number(matchingItem.productPrice) + Number(productPrice);
   }
-  
+  else {
+    cart.push({
+      productId: productId,
+      productPrice: productPrice,
+      qauntity: 1
+    })
+  }
+  saveToStorage();
+}
+
 export function updateCardQuantity() {
-  
-      let cartQuantity = 0;
-      cart.forEach((cartItem) => {
-        cartQuantity += cartItem.qauntity;
-      });
-      document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-  
-  }
+
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.qauntity;
+  });
+  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+
+}
 
 export function removeFromCart(productId) {
-    const newCard = [];
-    cart.forEach((cardItem) =>{
-        if(cardItem.productId !== productId){
-            newCard.push(cardItem);
-        }
-    });
-    cart = newCard;
+  const newCard = [];
+  cart.forEach((cardItem) => {
+    if (cardItem.productId !== productId) {
+      newCard.push(cardItem);
+    }
+  });
+  cart = newCard;
+  saveToStorage();
 }
