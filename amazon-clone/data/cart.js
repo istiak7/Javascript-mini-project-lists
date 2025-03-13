@@ -42,3 +42,13 @@ export function updateCardQuantity() {
       document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   
   }
+
+function removeFromCart(productId) {
+    const newCard = [];
+    cart.forEach((cardItem) =>{
+        if(cardItem.productId !== productId){
+            newCard.push(cardItem);
+        }
+    });
+    //console.log(newCard);
+}
