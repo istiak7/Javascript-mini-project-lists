@@ -96,7 +96,6 @@ let count = 0;
       deliveryString = `$${chargeForOneDay} - Shipping`;
     }
     
-
     DeliveryHTML +=
       `
        <div class="delivery-option">
