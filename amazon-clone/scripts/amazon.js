@@ -29,7 +29,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-product-quantity">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -63,17 +63,15 @@ products.forEach((product) => {
 document.querySelector('.js-product-grid').
   innerHTML = productsHTML;
 
-
-
 document.querySelectorAll('.js-add-to-cart').
   forEach((button) => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (event) => {
       const productId = button.dataset.productId;
       const productPrice = button.dataset.productPrice;
-
-      addToCart(productId, productPrice);
+      const productContainer = event.target.closest('.product-container');
+      const quantity =productContainer.querySelector('.js-product-quantity').value;
+      console.log(quantity);
+      addToCart(productId, productPrice, Number(quantity));
       updateCardQuantity();
-   
     });
   });
-

@@ -1,10 +1,10 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 function saveToStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-export function addToCart(productId, productPrice) {
+export function addToCart(productId, productPrice, quantity) {
 
   let matchingItem;
   cart.forEach((cartItem) => {
@@ -14,14 +14,14 @@ export function addToCart(productId, productPrice) {
   });
 
   if (matchingItem) {
-    matchingItem.qauntity += 1;
+    matchingItem.qauntity += quantity;
     matchingItem.productPrice = Number(matchingItem.productPrice) + Number(productPrice);
   }
   else {
     cart.push({
       productId: productId,
       productPrice: productPrice,
-      qauntity: 1
+      qauntity: quantity
     })
   }
   saveToStorage();
