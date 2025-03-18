@@ -10,9 +10,7 @@ let paymentSummaryHTML = '';
 let totalItems = 0;
 let CostPerProduct = 0;
 let totalCost = 0;
-let totalShipping = 0;
-let totalTax = 0;
-let flag = 0;
+
 
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
@@ -26,7 +24,7 @@ cart.forEach((cartItem) => {
   let withinOneDay = dayjs().add(1, 'day').format('dddd, MMMM D');
   let withinTwoDays = dayjs().add(2, 'day').format('dddd, MMMM D');
   let withinSevenDays = dayjs().add(7, 'day').format('dddd, MMMM D');
- 
+
 
   cartSummaryHTML +=
     `
@@ -68,6 +66,7 @@ cart.forEach((cartItem) => {
                 <div class="delivery-option">
                   <input type="radio" checked
                     class="delivery-option-input"
+                   
                     name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
@@ -82,6 +81,7 @@ cart.forEach((cartItem) => {
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
+
                     name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
@@ -96,6 +96,7 @@ cart.forEach((cartItem) => {
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
+                  
                     name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
@@ -110,16 +111,15 @@ cart.forEach((cartItem) => {
               </div>
             </div>
           </div>
-    ` 
-    CostPerProduct = matchingProduct.priceCents * cartItem.qauntity;
-    totalCost += CostPerProduct;
-    totalItems += cartItem.qauntity;
+    `
+  CostPerProduct = matchingProduct.priceCents * cartItem.qauntity;
+  totalCost += CostPerProduct;
+  totalItems += cartItem.qauntity;
 });
 paymentSummaryHTML +=
 
 
-`
-    
+  `
       <div class="payment-summary-row">
         <div>Items (${totalItems}):</div>
         <div class="payment-summary-money">$${totalCost / 100}</div>
@@ -135,18 +135,17 @@ paymentSummaryHTML +=
         <div class="payment-summary-money">$${totalCost / 100}</div>
       </div>
 
-      <div class="payment-summary-row">
+      <div class="payment-summary-row tax-row">
         <div>Estimated tax (10%):</div>
-        <div class="payment-summary-money">$4.77</div>
+        <div class="payment-summary-money">$${((totalCost / 100) * 0.10).toFixed(2)}</div>
       </div>
 
       <div class="payment-summary-row total-row">
         <div>Order total:</div>
-        <div class="payment-summary-money">$52.51</div>
+        <div class="payment-summary-money">$${(Number(totalCost / 100) + ((totalCost / 100) * 0.10)).toFixed(2)
+        }</div>
       </div>
 `
-
-console.log(totalShipping);
 
 document.querySelector('.js-order-summary').
   innerHTML = cartSummaryHTML;
@@ -161,33 +160,36 @@ document.querySelectorAll('.js-delete-link').
       container.remove();
 
     });
-
   });
 
 
-  document.addEventListener('click', function (event) {
+document.addEventListener("change", function (event) {
+  if (event.target.classList.contains("delivery-option-input")) {
+
+    // Get the shipping charge from the selected radio button
+    let shippingCharge = parseFloat(event.target
+      .closest(".delivery-option")
+      .querySelector(".delivery-option-price")
+      .getAttribute("data-product-shipping-charge"));
+
+
+    let shippingCostElement = document.querySelector(".payment-summary-shipping");
+    shippingCostElement.innerText = `$${shippingCharge.toFixed(2)}`;
+
+  
+    let finalCost = (Number(totalCost / 100) + Number(shippingCharge)).toFixed(2);
+    let totalBeforeTaxElement = finalCost;
     
-    if (event.target.classList.contains('delivery-option-input')) {
-      // Find the closest cart item container
-      const cartItemContainer = event.target.closest('.cart-item-container');
-  
-      // Find the delivery date element inside this container
-      const deliveryDateElement = cartItemContainer.querySelector('.delivery-date');
-  
-      // Get the selected delivery date (next sibling's first child's text)
-      const selectedDate = event.target.nextElementSibling.querySelector('.delivery-option-date').innerText;
-      console.log(selectedDate);
+    document.querySelector('.subtotal-row .payment-summary-money').innerText = `$${totalBeforeTaxElement}` ;
 
-      let currentCharge = Number(event.target.nextElementSibling.querySelector('.delivery-option-price').dataset.productShippingCharge);
-      totalShipping +=  currentCharge;
+    let estimatedTax = finalCost * 0.10;
+    document.querySelector('.tax-row .payment-summary-money').innerHTML = `$${estimatedTax.toFixed(2)}`;
+    document.querySelector('.total-row .payment-summary-money').innerHTML = `$${Number(finalCost) + Number(estimatedTax.toFixed(2))}`;
 
-      
-      document.querySelector('.payment-summary-shipping').innerHTML = `$${totalShipping}`;
-      // Update the delivery date display
-      deliveryDateElement.innerText = `Delivery date: ${selectedDate}`;
-    }
-  });
-  
+  }
+});
 
-  document.querySelector('.js-payment-summary').
+
+
+document.querySelector('.js-payment-summary').
   innerHTML = paymentSummaryHTML;
