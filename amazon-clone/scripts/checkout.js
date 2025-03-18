@@ -48,9 +48,7 @@ cart.forEach((cartItem) => {
                   <span>
                     Quantity: <span class="quantity-label">${cartItem.qauntity}</span>
                   </span>
-                  <span class="update-quantity-link link-primary">
-                    Update
-                  </span>
+  
                   <span class="delete-quantity-link link-primary
                   js-delete-link"
                   data-product-id="${matchingProduct.id}">
@@ -143,7 +141,7 @@ paymentSummaryHTML +=
       <div class="payment-summary-row total-row">
         <div>Order total:</div>
         <div class="payment-summary-money">$${(Number(totalCost / 100) + ((totalCost / 100) * 0.10)).toFixed(2)
-        }</div>
+  }</div>
       </div>
 `
 
@@ -163,28 +161,40 @@ document.querySelectorAll('.js-delete-link').
   });
 
 
+let shippongInfo = {};
+
 document.addEventListener("change", function (event) {
   if (event.target.classList.contains("delivery-option-input")) {
 
-    // Get the shipping charge from the selected radio button
     let shippingCharge = parseFloat(event.target
       .closest(".delivery-option")
       .querySelector(".delivery-option-price")
       .getAttribute("data-product-shipping-charge"));
-
-
-    let shippingCostElement = document.querySelector(".payment-summary-shipping");
-    shippingCostElement.innerText = `$${shippingCharge.toFixed(2)}`;
-
   
-    let finalCost = (Number(totalCost / 100) + Number(shippingCharge)).toFixed(2);
+    const productId = event.target.getAttribute('name');
+
+// Log the name attribute to the console
+console.log(productId);
+
+      shippongInfo[productId] = shippingCharge;
+      let totalShippingCharge = 0;
+      for (let x in shippongInfo) {
+        console.log(shippongInfo[x]);
+        totalShippingCharge += (Number(shippongInfo[x]));
+      }
+
+    let shippingCostElement= document.querySelector(".payment-summary-shipping");
+    shippingCostElement.innerText = `$${totalShippingCharge.toFixed(2)}`;
+
+
+    let finalCost = (Number(totalCost / 100) + Number(totalShippingCharge)).toFixed(2);
     let totalBeforeTaxElement = finalCost;
-    
-    document.querySelector('.subtotal-row .payment-summary-money').innerText = `$${totalBeforeTaxElement}` ;
+
+    document.querySelector('.subtotal-row .payment-summary-money').innerText = `$${totalBeforeTaxElement}`;
 
     let estimatedTax = finalCost * 0.10;
     document.querySelector('.tax-row .payment-summary-money').innerHTML = `$${estimatedTax.toFixed(2)}`;
-    document.querySelector('.total-row .payment-summary-money').innerHTML = `$${Number(finalCost) + Number(estimatedTax.toFixed(2))}`;
+    document.querySelector('.total-row .payment-summary-money').innerHTML = `$${(Number(finalCost) + Number(estimatedTax)).toFixed(2)}`;
 
   }
 });
