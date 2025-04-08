@@ -68,7 +68,7 @@ cart.forEach((cartItem) => {
                     name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
-                      ${withinOneDay}
+                      ${withinSevenDays}
                     </div>
                     <div class="delivery-option-price"
                     data-product-shipping-charge="0.00">
@@ -98,7 +98,7 @@ cart.forEach((cartItem) => {
                     name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
-                      ${withinSevenDays}
+                      ${withinOneDay}
                     </div>
                     <div class="delivery-option-price"
                     data-product-shipping-charge="9.99">
@@ -198,7 +198,6 @@ console.log(productId);
 
   }
 });
-
 
 
 document.querySelector('.js-payment-summary').
